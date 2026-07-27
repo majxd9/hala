@@ -36,7 +36,7 @@ const invitationData = {
   supervisors: ["د. مؤنس جرايحي", "د. عبد الرحمن حمدون", "د. وائل الحسن", "د. شذا حبش"],
 
   // تاريخ ووقت المناقشة — المتغيّر الوحيد اللي يتحكم بكل شي متعلق بالوقت
-  eventDate: "2026-08-01T12:30:00",
+  eventDate: "2026-08-01T12:00:00",
 
   // اسم القاعة أو المكان
   location: "الجامعة الوطنية الخاصة",
@@ -69,5 +69,5 @@ const invitationData = {
   // ١) حطّي ملف الصوت بجانب index.html، مثلاً بمجلد اسمه audio
   // ٢) اكتبي مساره هون، مثلاً: "audio/song.mp3"
   // ٣) اتركيه فارغاً "" إذا ما بدك أي موسيقى — زر الصوت رح يختفي تلقائيًا
-  musicUrl: ""
+  musicUrl: "https://www.youtube.com/watch?v=u2ah9tWTkmk&list=RDu2ah9tWTkmk&start_radio=1&pp=ygUIb3JkaW5hcnmgBwHSBwkJowsBhyohjO8%3D"
 };
