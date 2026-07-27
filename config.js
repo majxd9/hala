@@ -49,7 +49,7 @@ const invitationData = {
   // في محافظة حماة (أوتوستراد حمص-حماة الدولي)، لكن ما قدرت أتأكد إذا في فرع أو مبنى تاني
   // باللاذقية هو مكان المناقشة الفعلي. تأكدي من الموقع الصحيح ثم افتحي Google Maps، دوّري
   // عالمكان، دوسي Share، وانسخي الرابط هون — لتفادي إرسال المدعوين لمكان غلط.
-  googleMapsUrl: "https://maps.google.com/",
+  googleMapsUrl: "https://www.google.com/maps/place/Al-Wataniya+Private+University/@34.9693062,36.7490668,17z/data=!3m1!4b1!4m6!3m5!1s0x15237077a8817b51:0x37c21840ee3ae017!8m2!3d34.9693062!4d36.7516471!16s%2Fm%2F0pcw443?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
 
   // رسالة الدعوة الختامية
   closingMessage: "يسعدنا حضوركم ومشاركتنا هذه اللحظة المميزة",
