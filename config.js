@@ -69,5 +69,5 @@ const invitationData = {
   // ١) حطّي ملف الصوت بجانب index.html، مثلاً بمجلد اسمه audio
   // ٢) اكتبي مساره هون، مثلاً: "audio/song.mp3"
   // ٣) اتركيه فارغاً "" إذا ما بدك أي موسيقى — زر الصوت رح يختفي تلقائيًا
-  musicUrl: "hala/m.mp3"
+  musicUrl: "https://pixabay.com/music/traditional-jazz-ordinary-day-8025/"
 };
