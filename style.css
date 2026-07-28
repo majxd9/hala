@@ -1,0 +1,873 @@
+/* =====================================================================
+   دعوة تخرج فاخرة — العمارة × المحيط × الحياة البحرية
+   ملف التنسيق الرئيسي
+   ===================================================================== */
+
+/* ---------- 1) المتغيرات (الهوية البصرية) ---------- */
+:root {
+  --ivory: #F6F1E7;
+  --ivory-deep: #EEE4D2;
+  --beige: #E4D9C3;
+  --navy: #16273F;
+  --abyss: #0A1220;
+  --gold: #B9975B;
+  --gold-deep: #8A6A34;
+  --gold-soft: #D2B77E;
+  --ink: #1B2430;
+
+  --font-display: 'Reem Kufi', sans-serif;
+  --font-body: 'Tajawal', sans-serif;
+  --font-mono: 'Space Grotesk', sans-serif;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --depth-opacity: 0;
+}
+
+/* ---------- 2) إعادة ضبط أساسية ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 38%, var(--abyss) 105%);
+  opacity: var(--depth-opacity, 0);
+  transition: opacity 0.7s ease;
+}
+
+main { position: relative; z-index: 2; }
+
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; background: none; border: none; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 700; }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 3) عناصر ثابتة: مقياس العمق + شريط التقدّم ---------- */
+.depth-gauge {
+  position: fixed;
+  z-index: 40;
+  left: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-family: var(--font-mono);
+  color: #FFFFFF;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+.depth-gauge__value { font-size: 0.95rem; letter-spacing: 0.03em; }
+.depth-gauge__label { font-size: 0.68rem; letter-spacing: 0.08em; opacity: 0.8; }
+
+@media (max-width: 640px) {
+  .depth-gauge { left: 0.75rem; bottom: 0.75rem; }
+  .depth-gauge__value { font-size: 0.8rem; }
+  .depth-gauge__label { font-size: 0.6rem; }
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  z-index: 41;
+  background: rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+.scroll-progress__fill {
+  height: 100%; width: 100%;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.12s linear;
+}
+
+/* ---------- 4) قسم عام ---------- */
+.section {
+  position: relative;
+  padding: clamp(4.5rem, 12vw, 8rem) 1.25rem;
+  overflow: hidden;
+}
+
+.hero { background: var(--ivory); color: var(--ink); }
+.graduation { background: var(--beige); color: var(--ink); }
+.project {
+  background:
+    radial-gradient(ellipse 65% 45% at 18% 12%, rgba(210, 183, 126, 0.07), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 88% 85%, rgba(39, 71, 100, 0.5), transparent 65%),
+    var(--navy);
+  color: var(--ivory);
+}
+.details {
+  background:
+    radial-gradient(ellipse 55% 40% at 80% 10%, rgba(185, 151, 91, 0.06), transparent 60%),
+    radial-gradient(ellipse 65% 55% at 10% 90%, rgba(22, 39, 63, 0.6), transparent 65%),
+    var(--abyss);
+  color: var(--ivory);
+}
+.countdown {
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 85%, rgba(185, 151, 91, 0.07), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 90% 15%, rgba(22, 39, 63, 0.55), transparent 65%),
+    var(--abyss);
+  color: var(--ivory);
+}
+.location {
+  background:
+    radial-gradient(ellipse 60% 45% at 85% 20%, rgba(210, 183, 126, 0.06), transparent 60%),
+    radial-gradient(ellipse 65% 55% at 15% 80%, rgba(39, 71, 100, 0.5), transparent 65%),
+    var(--navy);
+  color: var(--ivory);
+}
+.closing { background: var(--ivory); color: var(--ink); }
+
+.section__heading {
+  font-size: clamp(1.7rem, 5vw, 2.75rem);
+  line-height: 1.3;
+  max-width: 18ch;
+  margin-bottom: 1.25rem;
+}
+
+.body-text {
+  font-size: clamp(1rem, 2.2vw, 1.1rem);
+  line-height: 1.95;
+  max-width: 46ch;
+}
+
+/* ---------- 5) عناوين فرعية (Eyebrow) ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  margin-bottom: 1.35rem;
+  font-size: 0.78rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+.eyebrow__code {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+}
+.eyebrow__label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.hero .eyebrow, .graduation .eyebrow, .closing .eyebrow { color: var(--gold-deep); }
+.project .eyebrow, .details .eyebrow, .countdown .eyebrow, .location .eyebrow { color: var(--gold-soft); }
+
+/* ---------- 6) إطار اللوحة (Plate Frame) ---------- */
+.plate-frame {
+  position: relative;
+  padding: 1.75rem;
+}
+.plate-frame::before,
+.plate-frame::after {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--gold-deep);
+}
+.plate-frame::before {
+  top: 0; right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+.plate-frame::after {
+  bottom: 0; left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+/* ---------- 7) أزرار (CTA) ---------- */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 2px;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  transition: transform 0.5s var(--ease-premium), background 0.4s ease;
+}
+.cta:hover { background: var(--navy); transform: translateY(-3px); }
+.cta svg { transition: transform 0.4s var(--ease-premium); }
+.cta:hover svg { transform: translateY(3px); }
+
+.cta--outline {
+  background: transparent;
+  border: 1px solid var(--gold-soft);
+  color: var(--ivory);
+}
+.cta--outline:hover { background: var(--gold-soft); color: var(--abyss); }
+
+/* ---------- 8) خطوط الرسم التقني (SVG line art) ---------- */
+.art-line { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.art-line-thin { fill: none; stroke: currentColor; stroke-width: 1; }
+.art-line-gold { fill: none; stroke: var(--gold); stroke-width: 1; }
+.art-circle-gold { fill: none; stroke: var(--gold); stroke-width: 1; }
+.art-dot { fill: currentColor; }
+.plate-figure-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+/* ---------- 9) فواصل الأمواج ---------- */
+.wave-divider {
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 100%;
+  height: clamp(36px, 8vw, 100px);
+  line-height: 0;
+}
+.wave-divider--to-beige { fill: var(--beige); }
+.wave-divider--to-navy { fill: var(--navy); }
+.wave-divider--to-abyss { fill: var(--abyss); }
+.wave-divider--to-ivory { fill: var(--ivory); }
+
+/* ---------- 10) حركة الظهور عند التمرير ---------- */
+/* احتياط: لو تعطّل جافاسكربت لأي سبب، تبقى كل العناصر ظاهرة بشكل طبيعي.
+   الإخفاء ثم الظهور التدريجي يشتغلان فقط بعد تأكيد أن JS يعمل (كلاس js-ready). */
+.reveal { opacity: 1; }
+
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s var(--ease-premium), transform 0.9s var(--ease-premium);
+}
+.js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal--delay-1 { transition-delay: 0.1s; }
+.reveal--delay-2 { transition-delay: 0.22s; }
+.reveal--delay-3 { transition-delay: 0.34s; }
+.reveal--delay-4 { transition-delay: 0.46s; }
+.reveal--delay-5 { transition-delay: 0.58s; }
+
+/* ===================== 11) شاشة البداية (Hero) ===================== */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(27,36,48,0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(27,36,48,0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 78%);
+}
+.hero__art {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(94vw, 620px);
+  height: auto;
+  color: var(--ink);
+  opacity: 0.62;
+}
+.hero__content {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.hero__content::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem -1.75rem;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, var(--ivory) 42%, rgba(246, 241, 231, 0) 76%);
+}
+.hero__name {
+  font-size: clamp(2.9rem, 13vw, 6.2rem);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.hero__tagline {
+  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+  margin-bottom: 0.6rem;
+}
+.hero__project {
+  font-size: 0.95rem;
+  color: var(--gold-deep);
+  font-weight: 500;
+  margin-bottom: 2.25rem;
+}
+.hero__cta { margin-inline: auto; }
+
+/* ===================== 12) قسم التخرج ===================== */
+.graduation__layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.graduation__art {
+  width: min(65vw, 220px);
+  color: var(--ink);
+}
+
+@media (min-width: 800px) {
+  .graduation__layout {
+    flex-direction: row;
+    text-align: start;
+    justify-content: space-between;
+  }
+  .graduation__text { flex: 1; }
+}
+
+/* ===================== 13) قسم مشروع التخرج ===================== */
+.project { text-align: center; }
+.project__title { margin: 0 auto 1rem; }
+.project__desc { margin: 0 auto 3rem; }
+.project__gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.project__art { color: var(--ivory); width: 100%; height: auto; }
+.project__plates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.project__plate {
+  margin: 0;
+  color: var(--ivory);
+}
+.project__plate svg { width: 100%; max-width: 96px; margin: 0 auto 0.75rem; opacity: 0.85; }
+.project__plate figcaption {
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--gold-soft);
+}
+.project__plate figcaption span { font-family: var(--font-mono); }
+
+@media (min-width: 900px) {
+  .project__gallery { grid-template-columns: 1.3fr 0.7fr; }
+  .project__plates { grid-template-columns: 1fr; grid-template-rows: repeat(3, 1fr); }
+}
+
+/* ===================== 14) تفاصيل الحفل ===================== */
+.details { text-align: center; }
+.details__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  max-width: 920px;
+  margin: 2.5rem auto 0;
+}
+.details__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: var(--ivory);
+  color: var(--ink);
+  padding: 1.5rem 1.1rem;
+  border: 1px solid var(--gold-deep);
+}
+.details__item-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.details__item-value {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* ===================== 15) العد التنازلي ===================== */
+.countdown { text-align: center; }
+.countdown__units {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.75rem, 3vw, 1.75rem);
+  margin-top: 2.5rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(185, 151, 91, 0.4);
+  border-bottom: 1px solid rgba(185, 151, 91, 0.4);
+}
+.countdown__units::before,
+.countdown__units::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  height: 5px;
+  background-image: repeating-linear-gradient(90deg, rgba(185, 151, 91, 0.55) 0 1px, transparent 1px 14px);
+}
+.countdown__units::before { top: -1px; }
+.countdown__units::after { bottom: -1px; }
+.countdown__unit {
+  position: relative;
+  min-width: 5.25rem;
+  padding: 1.5rem 1rem;
+  border: 1px solid rgba(185, 151, 91, 0.4);
+}
+.countdown__unit::before,
+.countdown__unit::after {
+  content: "";
+  position: absolute;
+  width: 9px; height: 9px;
+  border: 1.5px solid var(--gold);
+}
+.countdown__unit::before { top: -5px; right: -5px; border-left: none; border-bottom: none; }
+.countdown__unit::after { bottom: -5px; left: -5px; border-right: none; border-top: none; }
+.countdown__value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  font-weight: 600;
+  color: var(--gold-soft);
+  font-variant-numeric: tabular-nums;
+}
+.countdown__label {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+.countdown__done {
+  margin-top: 2.5rem;
+  font-size: 1.15rem;
+  color: var(--gold-soft);
+}
+
+/* ===================== 16) الموقع ===================== */
+.location { text-align: center; }
+.location .body-text { margin: 0 auto 2rem; }
+
+/* ===================== 17) الدعوة الختامية ===================== */
+.closing {
+  min-height: 60svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+.closing__message {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4.5vw, 2.25rem);
+  line-height: 1.6;
+  max-width: 20ch;
+}
+.closing__name {
+  font-size: 1rem;
+  color: var(--gold-deep);
+  letter-spacing: 0.03em;
+}
+
+/* ===================== 18) استجابة إضافية للشاشات الكبيرة ===================== */
+@media (min-width: 1100px) {
+  .section { padding-inline: 4rem; }
+  .details__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ===================== 19) بوابة الدخول (Porthole Entrance) ===================== */
+.entrance {
+  position: relative;
+  min-height: 100svh;
+  max-height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(185, 151, 91, 0.12), transparent 62%),
+    linear-gradient(180deg, var(--navy) 0%, var(--abyss) 100%);
+  color: var(--ivory);
+  transition: max-height 0.8s var(--ease-premium) 0.35s, min-height 0.8s var(--ease-premium) 0.35s;
+}
+.entrance--opening { min-height: 0; max-height: 0; }
+
+.entrance__content { position: relative; z-index: 2; }
+.entrance__video {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.entrance__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 18, 32, 0.32) 0%, rgba(10, 18, 32, 0.6) 55%, rgba(10, 18, 32, 0.86) 100%);
+}
+.entrance__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-soft);
+  transition: opacity 0.4s ease;
+}
+.entrance__name {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 8vw, 3.6rem);
+  margin: 0 0 3rem;
+  transition: opacity 0.4s ease;
+}
+
+.entrance__btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  color: var(--gold-soft);
+}
+.entrance__btn-ring {
+  display: block;
+  width: clamp(96px, 22vw, 140px);
+  transition: transform 1s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.9s ease 0.1s;
+}
+.entrance__btn-ring svg { width: 100%; height: 100%; animation: entrance-pulse 2.6s ease-in-out infinite; }
+.entrance__btn:hover .entrance__btn-ring svg,
+.entrance__btn:focus-visible .entrance__btn-ring svg { transform: scale(1.08); }
+.entrance__btn-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  transition: opacity 0.4s ease;
+}
+
+.entrance--opening .entrance__btn-ring {
+  transform: scale(24);
+  opacity: 0;
+}
+.entrance--opening .entrance__eyebrow,
+.entrance--opening .entrance__name,
+.entrance--opening .entrance__btn-label { opacity: 0; }
+.entrance--opening .entrance__btn { pointer-events: none; }
+
+@keyframes entrance-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+/* ===================== 20) فقاعات زخرفية ===================== */
+.bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.bubbles span {
+  position: absolute;
+  bottom: -40px;
+  width: var(--s, 8px);
+  height: var(--s, 8px);
+  border-radius: 50%;
+  border: 1px solid rgba(210, 183, 126, 0.35);
+  animation: bubble-rise 15s linear infinite;
+}
+.bubbles span:nth-child(1) { left: 10%;  --s: 7px;  animation-delay: 0s;  animation-duration: 16s; }
+.bubbles span:nth-child(2) { left: 27%;  --s: 5px;  animation-delay: 3s;  animation-duration: 12s; }
+.bubbles span:nth-child(3) { left: 52%;  --s: 10px; animation-delay: 6s;  animation-duration: 18s; }
+.bubbles span:nth-child(4) { left: 71%;  --s: 6px;  animation-delay: 2s;  animation-duration: 14s; }
+.bubbles span:nth-child(5) { left: 88%;  --s: 9px;  animation-delay: 8s;  animation-duration: 17s; }
+
+@keyframes bubble-rise {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.35; }
+  100% { transform: translateY(-70svh); opacity: 0; }
+}
+
+/* ===================== 21) قنديل الترقّب ===================== */
+.countdown__jelly {
+  position: absolute;
+  top: 8%;
+  left: 6%;
+  width: min(28vw, 130px);
+  height: auto;
+  color: var(--gold-soft);
+  opacity: 0.16;
+  animation: jelly-drift 9s ease-in-out infinite alternate;
+}
+@keyframes jelly-drift {
+  from { transform: translateY(-10px) rotate(-2deg); }
+  to   { transform: translateY(14px) rotate(2deg); }
+}
+
+@media (max-width: 640px) {
+  .countdown__jelly { left: -4%; top: 4%; width: 34vw; }
+}
+
+/* ===================== 22) زر الموسيقى الخلفية ===================== */
+.sound-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 42;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 18, 32, 0.38);
+  color: var(--ivory);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.35s var(--ease-premium), background 0.3s ease;
+}
+.sound-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(210, 183, 126, 0.55);
+  border-radius: 50%;
+  animation: sound-invite 3.4s ease-out infinite;
+}
+.sound-toggle--on::before { animation: none; opacity: 0; }
+@keyframes sound-invite {
+  0% { transform: scale(0.85); opacity: 0.9; }
+  70%, 100% { transform: scale(1.35); opacity: 0; }
+}
+.sound-toggle:hover { transform: scale(1.08); }
+.sound-toggle svg { width: 18px; height: 18px; }
+.sound-toggle__icon-off { display: block; }
+.sound-toggle__icon-on { display: none; }
+.sound-toggle--on .sound-toggle__icon-off { display: none; }
+.sound-toggle--on .sound-toggle__icon-on { display: block; }
+.sound-toggle--on { background: rgba(185, 151, 91, 0.55); }
+.sound-toggle--on svg { animation: sound-pulse 1.8s ease-in-out infinite; }
+@keyframes sound-pulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+
+@media (max-width: 640px) {
+  .sound-toggle { top: 0.75rem; left: 0.75rem; width: 38px; height: 38px; }
+}
+
+/* ===================== 23) إثراء بصري إضافي للأقسام ===================== */
+
+/* لوحة تفاصيل الحفل: كائن خافت جداً بالخلفية بين البطاقات، بدون أي تأثير على وضوح النص */
+.details__ray {
+  position: absolute;
+  top: 8%;
+  right: -8%;
+  width: min(70vw, 420px);
+  height: auto;
+  color: var(--gold-soft);
+  opacity: 0.07;
+  transform: rotate(8deg);
+}
+
+/* قسم الموقع: شعاعية بحرية تنساب بهدوء بالخلفية */
+.location__ray {
+  position: absolute;
+  bottom: 6%;
+  left: -6%;
+  width: min(55vw, 260px);
+  height: auto;
+  color: var(--gold-soft);
+  opacity: 0.16;
+  animation: ray-drift 11s ease-in-out infinite alternate;
+}
+@keyframes ray-drift {
+  from { transform: translateX(-8px) rotate(-3deg); }
+  to   { transform: translateX(14px) rotate(2deg); }
+}
+
+/* الدعوة الختامية: إشراقة الوصول + عمارة تطفو على السطح */
+.closing {
+  position: relative;
+}
+.closing__video {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.closing__video.is-loaded { opacity: 1; }
+.closing__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 18, 32, 0.18) 0%, var(--ivory) 52%, var(--ivory) 100%);
+}
+.closing__art {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(88vw, 460px);
+  height: auto;
+  color: var(--ink);
+  opacity: 0.4;
+}
+.closing__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .details__ray { width: 85vw; top: 4%; right: -14%; }
+}
+
+/* ===================== 24) حبيبات سينمائية خفيفة فوق كامل الموقع ===================== */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===================== 25) شعار المرساة والحرف الأول ===================== */
+.monogram {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  color: var(--gold);
+}
+.monogram::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+.monogram__anchor { width: 22px; height: 22px; }
+.monogram__initial {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+/* مرساة صغيرة مرافقة لتوقيع الدعوة الختامية */
+.closing__anchor {
+  width: 26px;
+  height: 26px;
+  color: var(--gold);
+  margin: 0 auto;
+}
+.closing__blessing {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--gold);
+  opacity: 0.9;
+}
+
+/* ===================== 26) لجنة الإشراف ===================== */
+.committee {
+  margin-top: 2.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba(210, 183, 126, 0.25);
+}
+.committee__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-soft);
+  margin: 0 0 1.1rem;
+}
+.committee__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem 2rem;
+  max-width: 480px;
+  margin-inline: auto;
+}
+.committee__list li {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ivory);
+  opacity: 0.85;
+  position: relative;
+  padding-inline-end: 1.1rem;
+}
+.committee__list li::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+@media (min-width: 520px) {
+  .committee__list { grid-template-columns: 1fr 1fr; }
+}
