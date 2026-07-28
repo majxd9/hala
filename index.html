@@ -14,6 +14,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+  // يمنع المتصفح من القفز مباشرة لأي قسم (#hash) أو استعادة موضع تمرير قديم،
+  // بحيث الموقع يبلش دايمًا من البوابة بالأعلى — حتى لو كان الرابط فيه #اسم-قسم
+  if ("scrollRestoration" in history) { history.scrollRestoration = "manual"; }
+  window.scrollTo(0, 0);
+</script>
 
 <!-- عناصر توجيه ثابتة -->
 <aside class="depth-gauge" aria-hidden="true">
@@ -39,7 +45,7 @@
 
   <!-- ============ بوابة الدخول (Porthole) ============ -->
   <div class="entrance" id="entrance">
-    <video class="entrance__video" id="entranceVideo" autoplay muted loop playsinline poster="assets/entrance-poster.jpg" aria-hidden="true">
+    <video class="entrance__video" id="entranceVideo" autoplay muted loop playsinline preload="auto" poster="assets/entrance-poster.jpg" aria-hidden="true">
       <source src="assets/entrance-bg.mp4" type="video/mp4">
     </video>
     <div class="entrance__scrim" aria-hidden="true"></div>

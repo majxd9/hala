@@ -26,6 +26,39 @@
     };
   }
 
+  /* ---------- أسماء عربية ثابتة (بدل الاعتماد على إعدادات المتصفح الإقليمية،
+     اللي بيّنت إنها ما بتشتغل نفس الشي عبر كل الأجهزة والمتصفحات) ---------- */
+  var WEEKDAYS_AR = [
+    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت",
+  ];
+  var MONTHS_AR = [
+    "كانون الثاني", "شباط", "آذار", "نيسان", "أيار", "حزيران",
+    "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول",
+  ];
+
+  function formatArabicWeekday(date) {
+    return WEEKDAYS_AR[date.getDay()];
+  }
+  function formatArabicDate(date) {
+    return date.getDate() + " " + MONTHS_AR[date.getMonth()] + " " + date.getFullYear();
+  }
+  function formatArabicTime(date) {
+    var h = date.getHours();
+    var m = date.getMinutes();
+    var period = h < 12 ? "ص" : "م";
+    var h12 = h % 12;
+    if (h12 === 0) h12 = 12;
+    return h12 + ":" + pad(m) + " " + period;
+  }
+
+  /* ---------- 0) تثبيت بداية الصفحة من الأعلى دايمًا ---------- */
+  function pinScrollToTop() {
+    // بعض المتصفحات تطبّق القفز لـ #hash بعد حدث load مباشرة، فنعيد التثبيت هون كطبقة حماية إضافية
+    window.addEventListener("load", function () {
+      if (window.scrollY > 0) window.scrollTo(0, 0);
+    });
+  }
+
   /* ---------- 1) تجهيز البيانات (config.js + حقول محسوبة تلقائياً) ---------- */
   function buildContent() {
     var base =
@@ -40,19 +73,9 @@
     if (base.eventDate) {
       var eventDate = new Date(base.eventDate);
       if (!isNaN(eventDate.getTime())) {
-        content.dayName = eventDate.toLocaleDateString("ar-SY", {
-          weekday: "long",
-        });
-        content.formattedDate = eventDate.toLocaleDateString("ar-SY-u-nu-latn", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
-        content.formattedTime = eventDate.toLocaleTimeString("ar-SY-u-nu-latn", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        });
+        content.dayName = formatArabicWeekday(eventDate);
+        content.formattedDate = formatArabicDate(eventDate);
+        content.formattedTime = formatArabicTime(eventDate);
       } else {
         console.warn(
           '[دعوة التخرج] لم أستطع قراءة "eventDate" في config.js. ' +
@@ -348,7 +371,7 @@
     var seconds =
       typeof invitationData !== "undefined" && invitationData.autoScrollSeconds
         ? invitationData.autoScrollSeconds
-        : 70;
+        : 38;
     autoScrollPxPerMs = remaining / (seconds * 1000);
     autoScrollActive = true;
     autoScrollLastTime = null;
@@ -456,9 +479,10 @@
     var hero = document.getElementById("hero");
     if (!entrance || !btn || !hero) return;
 
-    btn.addEventListener("click", function (e) {
-      e.preventDefault(); // بدون هذا السطر، الرابط العادي href="#hero" يبقى يشتغل كحل احتياطي
-      if (entrance.classList.contains("entrance--opening")) return;
+    var opened = false;
+    function openEntrance() {
+      if (opened) return;
+      opened = true;
       entrance.classList.add("entrance--opening");
       tryStartMusicOnEntrance();
       // نأخّر بدء التمرير حتى ينتهي انطواء البوابة (0.35s تأخير + 0.8s حركة = 1.15s في style.css)
@@ -469,7 +493,15 @@
         },
         reduceMotion ? 0 : 1150
       );
+    }
+
+    btn.addEventListener("click", function (e) {
+      e.preventDefault(); // بدون هذا السطر، الرابط العادي href="#hero" يبقى يشتغل كحل احتياطي
+      openEntrance();
     });
+
+    // فتح تلقائي حتى لو الزائر ما لمس الزر أبدًا — عشان التجربة تبلش لحالها دايمًا، متل فيديو
+    window.setTimeout(openEntrance, reduceMotion ? 300 : 4000);
   }
 
   /* ---------- التشغيل: كل وحدة معزولة بحيث لا يوقف خطأ في وحدة بقية الموقع ---------- */
@@ -482,6 +514,8 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    safeRun(pinScrollToTop, "تثبيت بداية الصفحة");
+
     var reduceMotion = false;
     try {
       reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

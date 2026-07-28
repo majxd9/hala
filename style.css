@@ -326,8 +326,8 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 700; }
   background: radial-gradient(ellipse at center, var(--ivory) 42%, rgba(246, 241, 231, 0) 76%);
 }
 .hero__name {
-  font-size: clamp(2.3rem, 9vw, 4.75rem);
-  line-height: 1.2;
+  font-size: clamp(2.9rem, 13vw, 6.2rem);
+  line-height: 1.15;
   margin-bottom: 1rem;
 }
 .hero__tagline {
@@ -557,7 +557,7 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 700; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(10, 18, 32, 0.55) 0%, rgba(10, 18, 32, 0.72) 55%, rgba(10, 18, 32, 0.9) 100%);
+    linear-gradient(180deg, rgba(10, 18, 32, 0.32) 0%, rgba(10, 18, 32, 0.6) 55%, rgba(10, 18, 32, 0.86) 100%);
 }
 .entrance__eyebrow {
   margin: 0 0 0.75rem;
@@ -568,7 +568,7 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 700; }
 }
 .entrance__name {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 6vw, 2.9rem);
+  font-size: clamp(2.1rem, 8vw, 3.6rem);
   margin: 0 0 3rem;
   transition: opacity 0.4s ease;
 }
